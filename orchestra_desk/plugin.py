@@ -58,4 +58,5 @@ def plugin(project) -> Plugin:
         router=router(project),
         processes=processes(project),
         collectors=collectors(project),
+        guide=Path(__file__).parent / "guide.md",   # how to configure it, for an AI operator (/api/guides)
     )

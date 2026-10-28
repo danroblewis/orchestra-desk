@@ -18,6 +18,7 @@ def test_it_runs_only_where_it_is_configured_and_declares_no_machine():
     off = plugin(proj('[events]\nurl = "file"\n'))
     assert (off.name, off.processes, off.machines, off.collectors) == ("desk", [], [], [])
     assert [p.path for p in off.pages] == ["/desk", "/ledger"]
+    assert off.guide.is_file() and off.guide.name == "guide.md"                       # its operator's guide, configured or not
     on = plugin(proj('[desk]\nevery = "30s"\n'))
     [p] = on.processes
     assert (p.name, p.argv(), p.restart) == ("reader", [sys.executable, "-m", "orchestra_desk", "read"], "always")

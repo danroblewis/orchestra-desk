@@ -7,7 +7,8 @@ name = "orchestra-desk"
 version = "0.1.0"
 description = "The Desk for Orchestra: one person's view over the system. A board of standing conditions, checked over the metrics store and served as an instrument, and a ledger of what happened, read from the bus."
 requires-python = ">=3.12"
-dependencies = ["orchestra @ git+https://github.com/danroblewis/orchestra@main", "fastapi>=0.115"]
+# orchestra: ours is 1.0.0a1; <1.0.0 keeps out the unrelated `orchestra` on PyPI (1.0.0 and up)
+dependencies = ["orchestra>=1.0.0a1,<1.0.0", "fastapi>=0.115"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "httpx>=0.27", "ruff>=0.6"]
@@ -18,8 +19,10 @@ desk = "orchestra_desk.plugin:plugin"
 [project.entry-points."orchestra.commands"]
 desk = "orchestra_desk.cli:main"
 
-[tool.hatch.metadata]
-allow-direct-references = true   # Orchestra comes from GitHub (see README, "Developing against a local Orchestra")
+[tool.uv.sources]
+# This repository's own environment takes Orchestra from GitHub (README, "Developing against a local Orchestra");
+# ignored when the plugin is installed as a dependency.
+orchestra = { git = "https://github.com/danroblewis/orchestra", branch = "main" }
 
 [tool.hatch.build.targets.wheel]
 packages = ["orchestra_desk"]

@@ -35,7 +35,7 @@ broken without updating the spec and saying so in the commit. Orchestra's own ru
 
 - Python 3.12+, `uv` for everything. `uv sync --extra dev`, then `set -o pipefail; uv run python
   -m pytest -q` and `uv run ruff check`.
-- Orchestra comes from GitHub (`[tool.uv.sources]`, `main`), at the
+- Orchestra comes from GitHub (`[tool.uv] override-dependencies`, `main`), at the
   commit `uv.lock` pins; README, "Developing against a local Orchestra". Test projects live in
   temporary plain directories with their own `ORCHESTRATOR_HOME`.
 - The configuration contract (SPEC §4) is what the Supervisor's tools will edit: change it only

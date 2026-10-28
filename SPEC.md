@@ -146,7 +146,7 @@ that other things should see (the model, other machines), make it an instrument 
 The Desk reads `[desk]` from `project.config.raw` (the repository's `orchestra.toml` with the
 owner's private overlay merged over it), and follows edits by `project.config_stamp()`. The
 Supervisor changes it through `project.config_edit` (personal conditions and identities belong in
-the overlay), after `orchestra-desk check` accepts it. Every key is checked; an unknown key is
+the overlay), after `orchestra desk check` accepts it. Every key is checked; an unknown key is
 refused, so a typo is caught. Durations are `"60s"`, `"15m"`, `"2h"` (Orchestra's `parse_duration`: ms, s, m, h), or a number of seconds.
 
 ### 4.1 `[desk]`
@@ -264,13 +264,13 @@ link = "https://github.com/{repo}/pull/{number}"
 sources = ["person.danroblewis"]
 ```
 
-### 4.5 `orchestra-desk check`
+### 4.5 `orchestra desk check`
 
 ```bash
-orchestra-desk check                       # the repository here: its configuration, overlay merged
-orchestra-desk check --repo ~/work         # that repository
-orchestra-desk check --file proposed.toml  # a whole proposed orchestra.toml, not yet in place
-orchestra-desk check --file - --json       # from stdin, answered in JSON
+orchestra desk check                       # the repository here: its configuration, overlay merged
+orchestra desk check --repo ~/work         # that repository
+orchestra desk check --file proposed.toml  # a whole proposed orchestra.toml, not yet in place
+orchestra desk check --file - --json       # from stdin, answered in JSON
 ```
 
 Exit 0: valid. Exit 1: invalid, with every problem found (each a sentence naming the key). Exit 2:

@@ -1,6 +1,6 @@
 """The Desk's settings: ``[desk]`` in the project's configuration (``project.config.raw``, the
 overlay merged), a section Orchestra ignores. The contract is SPEC.md §4; the Supervisor edits it
-through ``project.config_edit``, and ``orchestra-desk check`` validates it first (``check.py``).
+through ``project.config_edit``, and ``orchestra desk check`` validates it first (``check.py``).
 
 ::
 

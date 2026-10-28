@@ -1,4 +1,4 @@
-"""``orchestra-desk``: ``check`` a configuration; ``measure`` (the instrument ``desk.conditions``)
+"""``orchestra desk``: ``check`` a configuration; ``measure`` (the instrument ``desk.conditions``)
 and ``read`` (the process ``desk.reader``), which ``orchestra run`` starts and nobody else needs to."""
 
 from __future__ import annotations
@@ -48,7 +48,7 @@ def _check(a) -> int:
 
 
 def main(args: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(prog="orchestra-desk", description="The Desk's tools.")
+    ap = argparse.ArgumentParser(prog="orchestra desk", description="The Desk's tools.")
     sub = ap.add_subparsers(dest="cmd", required=True)
     c = sub.add_parser("check", help="validate [desk] in a configuration")
     c.add_argument("--repo", type=Path, default=Path.cwd(), help="the repository (default: here)")

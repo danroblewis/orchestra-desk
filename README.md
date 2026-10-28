@@ -28,9 +28,15 @@ set -o pipefail; uv run python -m pytest -q
 uv run ruff check
 ```
 
-To use it with a project, run `orchestra run` and `orchestra web` from this environment (or install
-it into the environment that runs Orchestra; Orchestra's README, "Install", does both from GitHub
-with no clone).
+To use it with a project, run `orchestra run` and `orchestra web` from this environment, or install
+Orchestra with it as a tool, from GitHub with no clone:
+
+```bash
+uv tool install 'orchestra[sd] @ git+https://github.com/danroblewis/orchestra@main' --with 'orchestra-desk @ git+https://github.com/danroblewis/orchestra-desk'
+```
+
+Its command line comes with it as `orchestra desk` (`orchestra desk --help`); there is no
+executable of its own.
 The Desk and Ledger pages are behind Orchestra's login, like every page of `orchestra web`: open
 the link it prints, or paste `orchestra web token` into its login page. A program reading
 `/api/plugins/desk/*` sends `Authorization: Bearer <that token>`.
@@ -103,8 +109,8 @@ link = "https://jira.example.com/browse/{subject}"
 Check a configuration before committing it (the Supervisor's tools call the same):
 
 ```bash
-uv run orchestra-desk check --repo ~/work            # exit 1 and the reasons when it is wrong
-uv run orchestra-desk check --file proposed.toml --json
+uv run orchestra desk check --repo ~/work            # exit 1 and the reasons when it is wrong
+uv run orchestra desk check --file proposed.toml --json
 ```
 
 ## What runs

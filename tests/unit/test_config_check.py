@@ -117,7 +117,6 @@ def test_the_check_of_a_repository_reads_its_configuration_and_its_store(make_pr
 
 
 def test_the_installed_command(tmp_path):
-    exe = Path(sys.executable).with_name("orchestra-desk")
-    r = subprocess.run([str(exe), "check", "--file", "-", "--json"], input='[desk]\nevery = "2s"\n',
-                       capture_output=True, text=True, check=False)
+    r = subprocess.run([sys.executable, "-m", "orchestra", "desk", "check", "--file", "-", "--json"],
+                       input='[desk]\nevery = "2s"\n', capture_output=True, text=True, check=False)
     assert r.returncode == 1 and not json.loads(r.stdout)["ok"]

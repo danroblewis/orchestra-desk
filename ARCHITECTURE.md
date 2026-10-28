@@ -53,7 +53,7 @@ Nothing points from the Desk to the bus, and only `orchestra run` writes the sto
 | `rules.py` | the ledger's rules: built-in, templates, safe links |
 | `ledger.py` | `ledger.db` (SQLite): entries, offset, rules' fingerprint |
 | `reader.py` | `catch_up` and the `desk.reader` process |
-| `check.py`, `cli.py` | `orchestra-desk check`, and `measure` / `read` for `orchestra run` |
+| `check.py`, `cli.py` | `orchestra desk check`, and `measure` / `read` for `orchestra run` |
 | `plugin.py` | the entry point: two pages, the router, the process and the instrument when configured |
 | `web.py` | the pages' API (read only) |
 | `static/` | `desk.html` + `board.js`, `ledger.html` + `ledger.js`, `desk.css` (linked by its own pages only) |

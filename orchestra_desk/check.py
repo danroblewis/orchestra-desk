@@ -1,11 +1,11 @@
-"""``orchestra-desk check``: validate a ``[desk]`` configuration before it is committed.
+"""``orchestra desk check``: validate a ``[desk]`` configuration before it is committed.
 
 For the Supervisor's tools (and anyone editing by hand)::
 
-    orchestra-desk check                      # the configuration of the repository here (overlay merged)
-    orchestra-desk check --repo ~/work        # ... of that repository
-    orchestra-desk check --file proposed.toml # a whole proposed configuration, not yet in place
-    orchestra-desk check --file - --json      # read from stdin; answer in JSON
+    orchestra desk check                      # the configuration of the repository here (overlay merged)
+    orchestra desk check --repo ~/work        # ... of that repository
+    orchestra desk check --file proposed.toml # a whole proposed configuration, not yet in place
+    orchestra desk check --file - --json      # read from stdin; answer in JSON
 
 Exit 0 when the configuration is valid, 1 when it is not, 2 when it cannot be read. The JSON is
 ``{"ok": bool, "errors": [...], "warnings": [...], "conditions": {name: {check, severity, holds}},

@@ -24,10 +24,10 @@ every = "10s"
 
 CONDITIONS = """
 [desk.conditions."reviews-wait"]
-statement = "No PR of mine waits more than a day for review"
+statement = "No pull request waits more than a day for a review asked of someone"
 severity = "high"
 link = "https://github.com/pulls/review-requested"
-series = "prs_awaiting_review_oldest_seconds"
+series = "github_prs_review_request_oldest_seconds"
 holds = "<= 86400"
 """
 

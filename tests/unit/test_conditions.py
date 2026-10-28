@@ -27,12 +27,12 @@ def false_seconds(text: str, name: str) -> float | None:
 
 def test_a_series_condition_turns_false_and_true_and_its_instrument_reports_it(project, web):
     t0 = time.time() - 10_000                       # in the past: the store refuses points stamped ahead
-    put(project, "prs_awaiting_review_oldest_seconds", 3600, ts=t0)
+    put(project, "github_prs_review_request_oldest_seconds", 3600, ts=t0)
     out = measure(project, now=t0)
     assert holds_line(out, "reviews-wait") == "1" and false_seconds(out, "reviews-wait") == 0
     assert 'desk_conditions{state="holds"} 1' in out
 
-    put(project, "prs_awaiting_review_oldest_seconds", 2 * 86400, ts=t0 + 10)
+    put(project, "github_prs_review_request_oldest_seconds", 2 * 86400, ts=t0 + 10)
     out = measure(project, now=t0 + 10)
     assert holds_line(out, "reviews-wait") == "0" and false_seconds(out, "reviews-wait") == 0
     out = measure(project, now=t0 + 70)
@@ -41,11 +41,11 @@ def test_a_series_condition_turns_false_and_true_and_its_instrument_reports_it(p
 
     [c] = web.get("/api/plugins/desk/board").json()["conditions"]
     assert c["state"] == "false" and c["value"] == 2 * 86400 and c["severity"] == "high"
-    assert "prs_awaiting_review_oldest_seconds = 172800" in c["evidence"] and "<= 86400" in c["evidence"]
+    assert "github_prs_review_request_oldest_seconds = 172800" in c["evidence"] and "<= 86400" in c["evidence"]
     assert c["link"] == "https://github.com/pulls/review-requested"
-    assert c["evidence_link"].startswith("/api/core/metrics/query?q=prs_awaiting_review_oldest_seconds")
+    assert c["evidence_link"].startswith("/api/core/metrics/query?q=github_prs_review_request_oldest_seconds")
 
-    put(project, "prs_awaiting_review_oldest_seconds", 60, ts=t0 + 80)
+    put(project, "github_prs_review_request_oldest_seconds", 60, ts=t0 + 80)
     out = measure(project, now=t0 + 80)
     assert holds_line(out, "reviews-wait") == "1" and false_seconds(out, "reviews-wait") == 0
 
@@ -58,11 +58,11 @@ def test_a_series_condition_turns_false_and_true_and_its_instrument_reports_it(p
 
 def test_an_unknown_check_does_not_reset_how_long_it_has_been_false(project):
     t0 = time.time() - 10_000
-    put(project, "prs_awaiting_review_oldest_seconds", 2 * 86400, ts=t0)
+    put(project, "github_prs_review_request_oldest_seconds", 2 * 86400, ts=t0)
     measure(project, now=t0)
     out = measure(project, now=t0 + 3600)            # the reading is now an hour old: older than max_age
     assert holds_line(out, "reviews-wait") is None and 'desk_conditions{state="unknown"} 1' in out
-    put(project, "prs_awaiting_review_oldest_seconds", 2 * 86400, ts=t0 + 3700)
+    put(project, "github_prs_review_request_oldest_seconds", 2 * 86400, ts=t0 + 3700)
     out = measure(project, now=t0 + 3700)
     assert false_seconds(out, "reviews-wait") == 3700
     rec = R.load(R.path_for(project.state_dir))["conditions"]["reviews-wait"]

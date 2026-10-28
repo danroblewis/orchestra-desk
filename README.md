@@ -3,7 +3,7 @@
 The Desk for [Orchestra](../orchestra_2): one person's view over the system.
 
 - **The board** (`/desk`): your standing conditions, the statements about the system that should
-  hold ("no PR of mine waits more than a day for review", "no secret expires within 30 days"),
+  hold ("no pull request waits more than a day for review", "no secret expires within 30 days"),
   each checked against Orchestra's metrics. False ones first, the most severe and the longest
   false on top, each with its evidence and a link to where to act.
 - **The ledger** (`/ledger`): what happened (tickets landed, PRs merged, reviews given, drafts
@@ -79,10 +79,10 @@ In the project's configuration (`orchestra.toml`, or the owner's overlay for per
 owner = ["person.danroblewis"]       # who you are on the bus: the ledger's "mine"
 
 [desk.conditions."reviews-wait"]
-statement = "No PR of mine waits more than a day for review"
+statement = "No pull request waits more than a day for a review asked of someone"
 severity = "high"
-link = "https://github.com/pulls?q=is%3Aopen+author%3A%40me"
-series = "github_prs_awaiting_review_oldest_seconds"
+link = "https://github.com/acme/service/pulls"
+series = "github_prs_review_request_oldest_seconds"
 holds = "<= 86400"
 ```
 

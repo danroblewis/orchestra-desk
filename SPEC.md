@@ -68,9 +68,9 @@ expression, or a script. Anything more belongs in an instrument that serves a se
 
 ```toml
 [desk.conditions."reviews-wait"]
-statement = "No PR of mine waits more than a day for review"
-series = "github_prs_awaiting_review_oldest_seconds"
-labels = { author = "danroblewis" }   # optional: label = value, all must match
+statement = "No pull request waits more than a day for a review asked of someone"
+series = "github_prs_review_request_oldest_seconds"   # the GitHub PR bridge's, labelled by repo
+labels = { repo = "acme/service" }    # optional: label = value, all must match
 reduce = "max"                       # optional: how several matching series become one number
 holds = "<= 86400"                   # an operator and a number
 ```
@@ -219,13 +219,13 @@ owner = ["person.danroblewis"]
 every = "60s"
 max_age = "15m"
 
-# Story 20: my PRs stuck. The bridge's series, compared with a day.
+# Story 20: PRs stuck. The bridge's series (labelled only by repo), compared with a day.
 [desk.conditions."reviews-wait"]
-statement = "No PR of mine waits more than a day for review"
+statement = "No pull request waits more than a day for a review asked of someone"
 severity = "high"
-link = "https://github.com/pulls?q=is%3Aopen+author%3A%40me"
-series = "github_prs_awaiting_review_oldest_seconds"
-labels = { author = "danroblewis" }
+link = "https://github.com/acme/service/pulls"
+series = "github_prs_review_request_oldest_seconds"
+labels = { repo = "acme/service" }
 holds = "<= 86400"
 
 # Story 14: tickets in progress with no activity, as a share.

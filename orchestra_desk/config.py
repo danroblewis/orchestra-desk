@@ -10,11 +10,11 @@ through ``project.config_edit``, and ``orchestra desk check`` validates it first
     max_age = "15m"                  # a reading older than this is missing (default for every reading)
 
     [desk.conditions."reviews-wait"]                   # one series against a bound
-    statement = "No PR of mine waits more than a day for review"
+    statement = "No pull request waits more than a day for a review asked of someone"
     severity = "high"                                  # critical, high, medium (default), low
-    link = "https://github.com/pulls/review-requested" # where to act on it
-    series = "github_prs_awaiting_review_oldest_seconds"
-    labels = { author = "danroblewis" }
+    link = "https://github.com/acme/service/pulls"     # where to act on it
+    series = "github_prs_review_request_oldest_seconds"
+    labels = { repo = "acme/service" }
     reduce = "max"                                     # several series match: max (default), min, sum, avg, count
     holds = "<= 86400"
 
@@ -303,11 +303,16 @@ def _ledger(s: object, errors: list[str]) -> dict[str, Rule]:
     return rules
 
 
+NO_SECTION = "the configuration has no [desk] section"
+
+
 def problems(raw: dict[str, Any]) -> tuple[Settings | None, list[str]]:
-    """The settings, and every problem found (each a sentence); settings is None when any."""
+    """The settings, and every problem found (each a sentence); settings is None when any. With no
+    ``[desk]`` there is no problem (and no settings): this is also the plugin's ``Plugin.check``,
+    which judges only the Desk's own section, so removing it is allowed."""
     s = section(raw)
     if s is None:
-        return None, ["the configuration has no [desk] section"]
+        return None, []
     errors: list[str] = []
     unknown = set(s) - DESK_KEYS
     if unknown:
@@ -347,4 +352,6 @@ def settings(raw: dict[str, Any]) -> Settings:
     got, errors = problems(raw)
     if errors:
         raise ConfigError("; ".join(errors))
+    if got is None:
+        raise ConfigError(NO_SECTION)
     return got

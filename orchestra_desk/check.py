@@ -19,7 +19,7 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
-from .config import Settings, problems
+from .config import NO_SECTION, Settings, problems
 from .scripts import argv
 
 
@@ -46,6 +46,7 @@ def warnings(s: Settings, repo_root: Path, store=None, project_key: str | None =
 def check(raw: dict, repo_root: Path, store=None, project_key: str | None = None) -> dict:
     s, errors = problems(raw)
     if s is None:
+        errors = errors or [NO_SECTION]
         return {"ok": False, "errors": errors, "warnings": [], "conditions": {}, "ledger": {}}
     return {"ok": True, "errors": [], "warnings": warnings(s, repo_root, store, project_key),
             "conditions": {c.name: {"check": c.check, "severity": c.severity,

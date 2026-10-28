@@ -18,7 +18,7 @@ from orchestra.launcher import Process
 from orchestra.plugins import Page, Plugin
 
 from . import PACKAGE
-from .config import DEFAULT_EVERY, MAX_EVERY, MIN_EVERY, section
+from .config import DEFAULT_EVERY, MAX_EVERY, MIN_EVERY, problems, section
 
 STATIC = Path(__file__).parent / "static"
 
@@ -59,4 +59,5 @@ def plugin(project) -> Plugin:
         processes=processes(project),
         collectors=collectors(project),
         guide=Path(__file__).parent / "guide.md",   # how to configure it, for an AI operator (/api/guides)
+        check=lambda raw, repo_root: problems(raw)[1],   # what project.config_edit refuses in [desk]; none without it
     )

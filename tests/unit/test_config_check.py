@@ -109,9 +109,9 @@ def test_the_check_of_a_repository_reads_its_configuration_and_its_store(make_pr
     project = make_project()
     assert main(["check", "--repo", str(project.repo_root), "--json"]) == 0
     d = json.loads(capsys.readouterr().out)
-    assert d["warnings"] == [('[desk.conditions."reviews-wait"] series prs_awaiting_review_oldest_seconds '
+    assert d["warnings"] == [('[desk.conditions."reviews-wait"] series github_prs_review_request_oldest_seconds '
                               "is not in this project's metrics store yet")]
-    put(project, "prs_awaiting_review_oldest_seconds", 1)
+    put(project, "github_prs_review_request_oldest_seconds", 1)
     assert main(["check", "--repo", str(project.repo_root), "--json"]) == 0
     assert json.loads(capsys.readouterr().out)["warnings"] == []
 
@@ -120,3 +120,23 @@ def test_the_installed_command(tmp_path):
     r = subprocess.run([sys.executable, "-m", "orchestra", "desk", "check", "--file", "-", "--json"],
                        input='[desk]\nevery = "2s"\n', capture_output=True, text=True, check=False)
     assert r.returncode == 1 and not json.loads(r.stdout)["ok"]
+
+
+def test_no_desk_section_is_no_problem_for_the_plugin_check(project):
+    """Plugin.check judges only [desk], and its absence is fine: config_edit may remove it."""
+    from orchestra import config_edit
+    from orchestra.config import ConfigError
+
+    from orchestra_desk.plugin import plugin
+
+    assert problems({}) == (None, [])
+    with pytest.raises(ConfigError, match="no \\[desk\\] section"):
+        settings({})
+    check = plugin(project).check
+    assert check({}, project.repo_root) == [] and check({"desk": {"colour": 1}}, None)
+    config_edit._LOADED.clear()
+    with pytest.raises(ConfigError, match="desk: \\[desk\\] has unknown keys: colour"):
+        project.config_edit.set("desk.colour", "blue")
+    project.config_edit.unset("desk")
+    assert "desk" not in project.config.raw
+    config_edit._LOADED.clear()

@@ -20,21 +20,21 @@ def test_a_whole_round_publishes_nothing_and_writes_no_metric(make_project, web)
     project = make_project(f"""
 [desk.conditions."reviews-wait"]
 statement = "No PR waits"
-series = "prs_awaiting_review_oldest_seconds"
+series = "github_prs_review_request_oldest_seconds"
 holds = "<= 86400"
 
 [desk.conditions."s"]
 statement = "s"
 command = ["{s}"]
 """)
-    put(project, "prs_awaiting_review_oldest_seconds", 5)
+    put(project, "github_prs_review_request_oldest_seconds", 5)
     publish(project, "gate.landed", {"ticket": "T-1"}, source="merge_gate")
     before_events = bus(project)
     store = for_project(project)
     before_series = store.series("")
     t = time.time()
     for i in range(3):
-        put(project, "prs_awaiting_review_oldest_seconds", 5 if i % 2 else 10 ** 6, ts=t + i)
+        put(project, "github_prs_review_request_oldest_seconds", 5 if i % 2 else 10 ** 6, ts=t + i)
         measure(project, now=t + i)
         web.get("/api/plugins/desk/board")
         web.get("/api/plugins/desk/ledger", params={"period": "all"})

@@ -29,10 +29,10 @@ owner = ["person.danroblewis"]
 
 - **The reader**: `orchestra_desk.config.problems(raw)` returns `(settings, errors)`: every
   problem in the merged configuration at once, each a sentence naming the key, and settings `None`
-  when there is any. Its errors are what to give `project.config_edit` as the check
-  (`lambda raw: problems(raw)[1]`). It also says "the configuration has no [desk] section" when
-  `[desk]` is absent, so with that check, adding `[desk]` passes and removing it is refused as a
-  new problem; removing the Desk is the human's decision anyway.
+  when there is any (or no `[desk]`). Its errors are the plugin's check (`Plugin.check`), which
+  `project.config_edit` runs by itself on every change: pass no `check=`. A refusal starts with
+  `desk:`. An absent `[desk]` is no problem, so removing it is allowed; removing the Desk is the
+  human's decision anyway.
 - **Warnings**: `orchestra_desk.check.check(raw, repo_root, store, project_key)` adds, without
   failing: a script that is not a file or not executable, and (given the store) a series this
   project's metrics store has never had. A warned condition will be `unknown` until the script or

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orchestra · Ledger</title>
+<link rel="stylesheet" href="/static/style.css?v={{v}}">
+<link rel="stylesheet" href="/plugins/desk/static/desk.css?v={{v}}">
+</head>
+<body>
+<nav id="nav"><a href="/">Dashboard</a><a href="/machines">Machines</a><a href="/dynamics">Dynamics</a><a href="/core">Core</a><span class="muted" id="proj"></span><span class="muted" id="conn" style="margin-left:auto"></span></nav>
+<main class="dk-page">
+  <header class="dk-head">
+    <h1>Ledger</h1>
+    <p class="muted">What happened: landings, merges, reviews, sends and conditions that changed, read from the bus. Each entry links to where it happened.</p>
+    <div class="dk-filters">
+      <span class="dk-seg" id="dk-period"><button data-p="day">Day</button><button data-p="week">Week</button><button data-p="all">All</button></span>
+      <span class="dk-nav"><button id="dk-prev" aria-label="earlier">‹</button><b id="dk-name"></b><button id="dk-next" aria-label="later">›</button></span>
+      <label class="dk-mine"><input type="checkbox" id="dk-mine"> mine only</label>
+    </div>
+    <div class="dk-kinds" id="dk-kinds"></div>
+    <div id="dk-status" class="dk-status"></div>
+  </header>
+  <div id="dk-ledger"><div class="empty">reading…</div></div>
+</main>
+<div id="overlay" class="overlay" onclick="if(event.target===this)closeDrawer()"><div id="drawer" class="drawer"></div></div>
+<script src="/static/app.js?v={{v}}"></script>
+<script src="/plugins/desk/static/ledger.js?v={{v}}"></script>
+</body>
+</html>

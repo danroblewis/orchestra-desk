@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orchestra · Desk</title>
+<link rel="stylesheet" href="/static/style.css?v={{v}}">
+<link rel="stylesheet" href="/plugins/desk/static/desk.css?v={{v}}">
+</head>
+<body>
+<nav id="nav"><a href="/">Dashboard</a><a href="/machines">Machines</a><a href="/dynamics">Dynamics</a><a href="/core">Core</a><span class="muted" id="proj"></span><span class="muted" id="conn" style="margin-left:auto"></span></nav>
+<main class="dk-page">
+  <header class="dk-head">
+    <h1>Desk</h1>
+    <p class="muted">Your standing conditions: what should hold, checked against the metrics. False ones first, the most severe and the longest false at the top. What happened is in the <a href="/ledger">ledger</a>.</p>
+    <div id="dk-status" class="dk-status"></div>
+  </header>
+  <div id="dk-board"><div class="empty">reading…</div></div>
+</main>
+<div id="overlay" class="overlay" onclick="if(event.target===this)closeDrawer()"><div id="drawer" class="drawer"></div></div>
+<script src="/static/app.js?v={{v}}"></script>
+<script src="/plugins/desk/static/board.js?v={{v}}"></script>
+</body>
+</html>

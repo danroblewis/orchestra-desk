@@ -49,3 +49,15 @@ def test_the_state_is_the_owners_alone(project, web):
     db = project.state_dir / "desk" / "ledger.db"
     assert stat.S_IMODE(db.stat().st_mode) == 0o600
     assert stat.S_IMODE(db.parent.stat().st_mode) == 0o700
+
+
+def test_the_pages_and_api_are_behind_orchestras_login(project, web):
+    """The ledger is the owner's: without the web token nothing of the Desk answers."""
+    from fastapi.testclient import TestClient
+    from orchestra.web.app import create_app
+
+    anyone = TestClient(create_app(project))
+    for path in ("/api/plugins/desk/board", "/api/plugins/desk/ledger", "/plugins/desk/static/board.js"):
+        assert anyone.get(path).status_code == 401, path
+    assert anyone.get("/desk", headers={"Accept": "text/html"}, follow_redirects=False).headers["location"] == "/login?next=%2Fdesk"
+    assert web.get("/api/plugins/desk/board").status_code == 200

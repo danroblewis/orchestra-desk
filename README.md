@@ -32,6 +32,9 @@ uv run ruff check
 
 To use it with a project, run `orchestra run` and `orchestra web` from this environment (or install
 it into the environment that runs Orchestra: `uv tool install ~/orchestra_2 --with ~/orchestra-desk`).
+The Desk and Ledger pages are behind Orchestra's login, like every page of `orchestra web`: open
+the link it prints, or paste `orchestra web token` into its login page. A program reading
+`/api/plugins/desk/*` sends `Authorization: Bearer <that token>`.
 
 ## Configure
 

@@ -363,7 +363,9 @@ A broken `[desk]` makes the round fail with the reason (on the Instruments page 
 | `GET /board` | `{configured, error, now, checked_at, every, counts, conditions: [...]}`, ranked (§2) |
 | `GET /ledger?period=day\|week\|all&at=YYYY-MM-DD&kind=a,b&mine=true` | `{configured, error, read_error, name, start, end, owner, kinds, counts, entries}`, newest first; at most 2000 |
 
-Both are read only. Nothing on the Desk changes the system (Orchestra's rule 9).
+Both are read only. Nothing on the Desk changes the system (Orchestra's rule 9). The pages, the routes and the
+static files are behind Orchestra's login (its SPEC §10.2, PLUGINS.md §4.4.1): a browser's session
+or `Authorization: Bearer <orchestra web token>`; the Desk adds no check of its own.
 
 ## 8. State
 
